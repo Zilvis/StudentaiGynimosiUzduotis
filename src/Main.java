@@ -19,9 +19,15 @@ public class Main {
         sarasas.add(s1); sarasas.add(s2); sarasas.add(s3); sarasas.add(s4); sarasas.add(s5);
         sarasas.add(s6); sarasas.add(s7); sarasas.add(s8); sarasas.add(s9); sarasas.add(s10);
 
-        StudentasImpl s = new StudentasImpl();
+        meniu(sarasas);
+    }
 
+    static void spauzdintiSarasa(LinkedList<StudentasImpl> sarasas){
+        sarasas.forEach(studentas ->
+                System.out.println(studentas));
+    }
 
+    static void meniu (LinkedList<StudentasImpl> sarasas){
         System.out.println("Pasirinkite ka norite daryti:");
         System.out.println("" +
                 "1. Isvesti visus studentus\n" +
@@ -31,59 +37,102 @@ public class Main {
                 "5. Sukeisti studentu vidurkius\n" +
                 "6. Studentu paieska pagal metus arba varda pavarde\n");
         Scanner scanner = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         int pasirinkimas = scanner.nextInt();
-
+        String testi;
         switch (pasirinkimas){
             case 1:
                 spauzdintiSarasa(sarasas);
-                break;
+
+                System.out.println("\nAr testi? ( y )");
+                testi = sc.next();
+                if (testi.equalsIgnoreCase("y")){
+                    meniu(sarasas);
+                } else {
+                    break;
+                }
             case 2:
                 studentuSarasasPagalGrupe(sarasas);
-                break;
+
+                System.out.println("\nAr testi? ( y )");
+                testi = sc.next();
+                if (testi.equalsIgnoreCase("y")){
+                    meniu(sarasas);
+                } else {
+                    break;
+                }
             case 3:
                 Collections.sort(sarasas);
+                System.out.println("*************** Surikiuoti studentai pagal pazanguma ***************\n");
                 spauzdintiSarasa(sarasas);
-                break;
+
+                System.out.println("\nAr testi? ( y )");
+                testi = sc.next();
+                if (testi.equalsIgnoreCase("y")){
+                    meniu(sarasas);
+                } else {
+                    break;
+                }
             case 4:
-                pasalinaPrastaiBesimokancius(sarasas,5);
-                break;
+                patikrinaKurieStudentaiTuriNeigiamaVidurkiIrJuosPerkeliaIkitaSarasa(sarasas,5);
+
+                System.out.println("\nAr testi? ( y )");
+                testi = sc.next();
+                if (testi.equalsIgnoreCase("y")){
+                    meniu(sarasas);
+                } else {
+                    break;
+                }
             case 5:
-                SukeistiStudentuVidurki(sarasas);
-                break;
+                sukeistiStudentuVidurki(sarasas);
+
+                System.out.println("\nAr testi? ( y )");
+                testi = sc.next();
+                if (testi.equalsIgnoreCase("y")){
+                    meniu(sarasas);
+                } else {
+                    break;
+                }
             case 6:
                 studentuPaieska(sarasas);
-                break;
+
+                System.out.println("\nAr testi? ( y )");
+                testi = sc.next();
+                if (testi.equalsIgnoreCase("y")){
+                    meniu(sarasas);
+                } else {
+                    break;
+                }
             default:
-                System.out.println("Pasirinkite ka norite daryti:");
+                System.out.println("\nPasirinkite ka norite daryti:");
         }
     }
 
-    static void spauzdintiSarasa(LinkedList<StudentasImpl> sarasas){
-        sarasas.forEach(studentas ->
-                System.out.println(studentas));
-    }
 
-    static void SukeistiStudentuVidurki (LinkedList<StudentasImpl> sarasas){
+
+    static void sukeistiStudentuVidurki(LinkedList<StudentasImpl> sarasas){
         double max = Collections.min(sarasas).getVidurkis();
         double min = Collections.max(sarasas).getVidurkis();
 
         for (StudentasImpl studentas : sarasas){
-            if (studentas.getVidurkis() == max){
+            if (studentas.getVidurkis() == min){
                 studentas.setVidurkis(max);
             }
-            if (studentas.getVidurkis() == min){
+            else if (studentas.getVidurkis() == max){
                 studentas.setVidurkis(min);
             }
         }
+        System.out.println("*************** Sukeisti studentu vidurkiai max su min ***************\n");
         spauzdintiSarasa(sarasas);
     }
 
     static void studentuSarasasPagalGrupe(LinkedList<StudentasImpl> sarasas){
-        System.out.println("Studentu paieska pagal grupe");
+        System.out.println("Studentu paieska pagal grupe (Iveskite norimos grupes pavadinima)");
         Scanner scanner = new Scanner(System.in);
         String raktazodis = scanner.next();
         int count = 0;
         Iterator<StudentasImpl> i = sarasas.iterator();
+        System.out.println("*************** Rezultatai ***************\n");
         while(i.hasNext()){
             StudentasImpl studentas = i.next();
             if(studentas.getGrupe().equalsIgnoreCase(raktazodis)){
@@ -91,7 +140,7 @@ public class Main {
                 count++;
             }
         }
-        System.out.println("Viso rasta "+count+" studentu");
+        System.out.println("\nViso rasti "+count+" studentai");
     }
 
     static void studentuPaieska(LinkedList<StudentasImpl> sarasas){
@@ -100,6 +149,7 @@ public class Main {
         String raktazodis = scanner.next();
         int count = 0;
         Iterator<StudentasImpl> i = sarasas.iterator();
+        System.out.println("*************** Rezultatai ***************\n");
         while(i.hasNext()){
             StudentasImpl studentas = i.next();
             if(studentas.getPavardeVardas().toLowerCase().contains(raktazodis.toLowerCase()) || studentas.getGimimoMetai().contains(raktazodis)){
@@ -107,20 +157,24 @@ public class Main {
                 count++;
             }
         }
-        System.out.println("Viso rasta "+count+" studentu");
+        System.out.println("\nViso rasta "+count+" studentu pagal raktazodi "+ raktazodis);
     }
 
-    static void pasalinaPrastaiBesimokancius (LinkedList<StudentasImpl> sarasas, int vidurkis){
+    static void patikrinaKurieStudentaiTuriNeigiamaVidurkiIrJuosPerkeliaIkitaSarasa(LinkedList<StudentasImpl> sarasas, int vidurkis){
         int count = 0;
+        LinkedList <StudentasImpl> studentaiSuNeigiamu = new LinkedList<StudentasImpl>();
         Iterator<StudentasImpl> i = sarasas.iterator();
         while (i.hasNext()){
             StudentasImpl studentas = i.next();
             if (studentas.getVidurkis() < vidurkis) {
+                studentaiSuNeigiamu.add(studentas);
                 i.remove(); count++;
             }
         }
-        System.out.println("Mokiniai su teigiamu vidurkiu:");
+        System.out.println("*************** Mokiniai su teigiamu vidurkiu ***************\n");
         spauzdintiSarasa(sarasas);
-        System.out.println("Viso neigiamus vidurkius turi " + count+ " studentai");
+        System.out.println("\nViso neigiamus vidurkius turi " + count+ " studentai\n");
+        System.out.println("*************** Mokiniai su neigiamu vidurkiu ***************\n");
+        spauzdintiSarasa(studentaiSuNeigiamu);
     }
 }

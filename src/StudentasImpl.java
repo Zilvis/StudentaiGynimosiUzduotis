@@ -62,7 +62,7 @@ public class StudentasImpl implements Comparable<StudentasImpl>{
 
     @Override
     public String toString() {
-        return String.format("|\t%s\t| %s\t| %s\t| %s\t| %f |",pazymejimoNumeris,pavardeVardas,gimimoMetai,grupe,vidurkis);
+        return String.format("| Nr: %-5s\t|\t%-20s\t|\t%s\t|\tGrupe: %s\t|\tVidurkis: %.1f\t|",pazymejimoNumeris,pavardeVardas,gimimoMetai,grupe,vidurkis);
     }
 
     @Override
